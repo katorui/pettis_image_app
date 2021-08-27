@@ -1,0 +1,42 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+.app_title {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    margin: 2rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    width: 50%;
+    border-style: solid;
+    border-color: gray;
+}
+
+h1 {
+    color: aquamarine;
+}
+.title {
+    margin-top: 2rem;
+}
+
+form input {
+    margin-bottom: 2rem;
+}
+
+form #post {
+  margin-bottom: 2rem;
+}
+
+.post_form {
+    flex-direction: column;
+    display: flex;
+}
