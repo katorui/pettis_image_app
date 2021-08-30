@@ -13,10 +13,10 @@
       <h1>画像掲示板</h1>
   </div>
   <div class=wrapper>
-      <form action="" method="POST" class="post_form">
+      <form action="upload.php" method="POST" enctype="multipart/form-data" class="post_form">
           <input class="title" type="text" name="title" placeholder="タイトル">
           <textarea name="body" id="post" cols="50" rows="5" placeholder="画像説明"></textarea>
-          <input type="file" multiple name="upload_file[]" />
+          <input type="file" multiple name="upload_file[]">
           <div class="checbox">
               <input type="checkbox" name="" value="1">テスト１
               <input type="checkbox" name="" value="2">テスト２
