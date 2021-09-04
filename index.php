@@ -9,21 +9,26 @@
     <title>トップページ</title>
 </head>
 <body>
-  <div class="app_title">
-      <h1>画像掲示板</h1>
-  </div>
-  <div class=wrapper>
-      <form action="upload.php" method="POST" enctype="multipart/form-data" class="post_form">
-          <input class="title" type="text" name="title" placeholder="タイトル">
-          <textarea name="body" id="post" cols="50" rows="5" placeholder="画像説明"></textarea>
-          <input type="file" multiple name="upload_file[]">
-          <div class="checbox">
-              <input type="checkbox" name="" value="1">テスト１
-              <input type="checkbox" name="" value="2">テスト２
-              <input type="checkbox" name="" value="3">テスト３
-          </div>
-          <input type="submit" value="投稿する" class="btn btn-primary rounded-pill">
-      </form>
-  </div>
+    <div class="app_title">
+        <h1>画像掲示板</h1>
+    </div>
+    <div class="wrapper">
+        <div class="container">
+            <form action="upload.php" method="POST" enctype="multipart/form-data" class="post_form">
+                <input class="title" type="text" name="title" placeholder="タイトル">
+                <textarea name="body" id="post" cols="50" rows="5" placeholder="画像説明"></textarea>
+                <input type="file" name="upload_file[]" multiple>
+                <div class="checbox">
+                    <input type="checkbox" name="" value="1">テスト１
+                    <input type="checkbox" name="" value="2">テスト２
+                    <input type="checkbox" name="" value="3">テスト３
+                </div>
+                <div class="post_btn_area">
+                    <input type="submit" value="投稿する" class="btn btn-info rounded-pill post_btn">
+                </div>
+            </form>
+        </div>
+
+    </div>
 </body>
 </html>
