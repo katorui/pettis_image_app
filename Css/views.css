@@ -15,7 +15,7 @@ body {
 
 h1 {
     text-align: center;
-    color: aquamarine;
+    color: #0dcaf0;
 }
 .title {
     margin-top: 2rem;
@@ -41,4 +41,34 @@ form input {
 
 .post_btn {
     padding: 0.6rem 6rem !important;
+}
+
+.posts_wrapper {
+    margin: auto;
+    width: 50%;
+    margin-top: 5rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: solid;
+    border-bottom: solid;
+    border-color: gray;
+}
+
+.images {
+    display: flex;
+}
+
+.images img {
+    width: 33%;
+    padding: 1rem;
+}
+
+.category {
+    display: flex;
+}
+
+.category p {
+    background-color: #0dcaf0;
+    margin-left: 1rem;
+    border-radius: 30px;
 }

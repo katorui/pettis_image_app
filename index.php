@@ -1,3 +1,11 @@
+<?php
+require_once('Database/db.php');
+$db = new Db();
+$select_files = $db->file_select();
+// echo 'Img/' . $select_files["file_path"];
+// var_dump($select_files);
+
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -28,7 +36,21 @@
                 </div>
             </form>
         </div>
-
+    </div>
+    <div class="posts_wrapper">
+        <div class="posts_container">
+            <p>タイトル:</p>
+            <p>画像説明:</p>
+            <div class="category">
+                <p>カテゴリ</p>
+                <p>カテゴリ</p>
+            </div>
+            <div class="images">
+                <img src="Img/<?php echo  $select_files["file_path"]; ?> ">
+                <img src="Img/<?php echo  $select_files["file_path"]; ?> ">
+                <img src="Img/<?php echo  $select_files["file_path"]; ?> ">
+            </div>
+        </div>
     </div>
 </body>
 </html>

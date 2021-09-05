@@ -1,8 +1,7 @@
 <?php
 date_default_timezone_set('Asia/Tokyo');
-
-// var_dump($_FILES);
-// exit;
+require_once('Database/db.php');
+$db = new Db();
 
 try {
 
@@ -43,9 +42,10 @@ try {
         if (is_uploaded_file($path)) {
             $random_number = uniqid(mt_rand(), true);
             $date = date("YmdHis"); //日時取得
-            $save_file = $date . $random_number . "." . $extention; //保存ディレクトリ作成
-            if (move_uploaded_file($path, "Img/" . $save_file)) {
-                echo "アップロードしました";
+            $file_path = $date . $random_number . "." . $extention; //保存ディレクトリ作成
+            if (move_uploaded_file($path, "Img/" . $file_path)) {
+                echo $file_path . " をアップロードしました";
+                $db->file_insert($file_path);
             } else {
                 throw new Exception('アップロードに失敗しました');
             }
