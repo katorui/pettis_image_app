@@ -1,10 +1,9 @@
 <?php
+session_start();
 require_once('Database/db.php');
 $db = new Db();
 $select_files = $db->file_select();
-// echo 'Img/' . $select_files["file_path"];
-// var_dump($select_files);
-
+$all_posts_data = $db->posts_select();
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -20,13 +19,17 @@ $select_files = $db->file_select();
     <div class="app_title">
         <h1>画像掲示板</h1>
     </div>
+    <?php if (isset($_SESSION['upload_message'])) {
+        echo $_SESSION['upload_message'];
+        unset($_SESSION['upload_message']);
+    }; ?>
     <div class="wrapper">
         <div class="container">
             <form action="upload.php" method="POST" enctype="multipart/form-data" class="post_form">
                 <input class="title" type="text" name="title" placeholder="タイトル">
                 <textarea name="body" id="post" cols="50" rows="5" placeholder="画像説明"></textarea>
                 <input type="file" name="upload_file[]" multiple>
-                <div class="checbox">
+                <div class="checkbox">
                     <input type="checkbox" name="" value="1">テスト１
                     <input type="checkbox" name="" value="2">テスト２
                     <input type="checkbox" name="" value="3">テスト３
@@ -37,20 +40,25 @@ $select_files = $db->file_select();
             </form>
         </div>
     </div>
+    <?php foreach ($all_posts_data as $key => $posts_data) :?>
     <div class="posts_wrapper">
         <div class="posts_container">
-            <p>タイトル:</p>
-            <p>画像説明:</p>
+            <p>投稿NO.: <?php echo $posts_data['id']; ?></p>
+            <p>タイトル: <?php echo $posts_data['title']; ?></p>
+            <p>画像説明:<?php echo $posts_data['body']; ?></p>
             <div class="category">
+                <p>カテゴリ</p>
                 <p>カテゴリ</p>
                 <p>カテゴリ</p>
             </div>
             <div class="images">
-                <img src="Img/<?php echo  $select_files["file_path"]; ?> ">
-                <img src="Img/<?php echo  $select_files["file_path"]; ?> ">
-                <img src="Img/<?php echo  $select_files["file_path"]; ?> ">
+                <?php $images_data = $db->iamge_select($posts_data['id']); ?>
+                <?php foreach ($images_data as $key => $image_data) :?>
+                <img src="Img/<?php echo  $image_data["file_path"]; ?> ">
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
+    <?php endforeach; ?>
 </body>
 </html>

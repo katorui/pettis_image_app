@@ -1,4 +1,5 @@
 <?php
+session_start();
 date_default_timezone_set('Asia/Tokyo');
 require_once('Database/db.php');
 $db = new Db();
@@ -44,8 +45,13 @@ try {
             $date = date("YmdHis"); //日時取得
             $file_path = $date . $random_number . "." . $extention; //保存ディレクトリ作成
             if (move_uploaded_file($path, "Img/" . $file_path)) {
-                echo $file_path . " をアップロードしました";
-                $db->file_insert($file_path);
+                if ($db->file_insert($file_path)) {
+                    $_SESSION['upload_message'] = $file_path . " をアップロードしました";
+                    header('Location: index.php');
+                    exit;
+                } else {
+                    throw new Exception('アップロードに失敗しました');
+                }
             } else {
                 throw new Exception('アップロードに失敗しました');
             }
@@ -53,5 +59,7 @@ try {
     }
 
 } catch (Exception $e) {
-    echo $e->getMessage();
+    $_SESSION['upload_message'] = $e->getMessage();
+    header('Location: index.php');
+    exit;
 }
