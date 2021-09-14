@@ -1,6 +1,3 @@
-body {
-
-}
 
 .app_title {
     margin: 2rem;
@@ -71,4 +68,8 @@ form input {
     background-color: #0dcaf0;
     margin-left: 1rem;
     border-radius: 30px;
+}
+
+.upload_message {
+    color: red;
 }

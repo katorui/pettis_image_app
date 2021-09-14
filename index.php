@@ -2,7 +2,6 @@
 session_start();
 require_once('Database/db.php');
 $db = new Db();
-$select_files = $db->file_select();
 $all_posts_data = $db->posts_select();
 ?>
 <!DOCTYPE html>
@@ -19,20 +18,25 @@ $all_posts_data = $db->posts_select();
     <div class="app_title">
         <h1>画像掲示板</h1>
     </div>
-    <?php if (isset($_SESSION['upload_message'])) {
-        echo $_SESSION['upload_message'];
-        unset($_SESSION['upload_message']);
-    }; ?>
     <div class="wrapper">
         <div class="container">
             <form action="upload.php" method="POST" enctype="multipart/form-data" class="post_form">
                 <input class="title" type="text" name="title" placeholder="タイトル">
                 <textarea name="body" id="post" cols="50" rows="5" placeholder="画像説明"></textarea>
-                <input type="file" name="upload_file[]" multiple>
+                <input type="file" name="upload_file[]" multiple >
+                <div class="upload_message">
+                <?php if (isset($_SESSION['upload_message'])) {
+                    echo $_SESSION['upload_message'];
+                    unset($_SESSION['upload_message']); };
+                ?>
+                </div>
                 <div class="checkbox">
-                    <input type="checkbox" name="" value="1">テスト１
-                    <input type="checkbox" name="" value="2">テスト２
-                    <input type="checkbox" name="" value="3">テスト３
+                    <input type="checkbox" name="category[]" value="1" id="1">
+                    <label for="1">テスト1</label>
+                    <input type="checkbox" name="category[]" value="2" id="2">
+                    <label for="2">テスト2</label>
+                    <input type="checkbox" name="category[]" value="3" id="3">
+                    <label for="3">テスト3</label>
                 </div>
                 <div class="post_btn_area">
                     <input type="submit" value="投稿する" class="btn btn-info rounded-pill post_btn">
@@ -43,7 +47,7 @@ $all_posts_data = $db->posts_select();
     <?php foreach ($all_posts_data as $key => $posts_data) :?>
     <div class="posts_wrapper">
         <div class="posts_container">
-            <p>投稿NO.: <?php echo $posts_data['id']; ?></p>
+            <p>NO. <?php echo $posts_data['id']; ?></p>
             <p>タイトル: <?php echo $posts_data['title']; ?></p>
             <p>画像説明:<?php echo $posts_data['body']; ?></p>
             <div class="category">
