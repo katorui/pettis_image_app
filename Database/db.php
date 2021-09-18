@@ -41,24 +41,28 @@ Class Db
         }
     }
 
-    // 投稿一覧表示
-    public function posts_select() {
-        $dbh = $this->dbc();
-        $sql = "SELECT * FROM posts";
-        $stmt = $dbh->query($sql);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
     // 画像取得
-public function iamge_select($post_id) {
+    public function iamge_select($post_id) {
         $dbh = $this->dbc();
         $sql = "SELECT * FROM images INNER JOIN posts ON images.post_id = posts.id where post_id = ?";
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(1,$post_id,PDO::PARAM_INT);
         $stmt->execute();
-        $test_files = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $test_files;
+        $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $image_data;
     }
+
+    public function all_select() {
+        $dbh = $this->dbc();
+        $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
+        // $sql = "SELECT posts.id, posts.title, GROUP_CONCAT(images.file_path) FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
+        // $sql = "SELECT posts.id GROUP_CONCAT(images.file_path) AS file_pathes FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
+        $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $image_data;
+    }
+
+    // SELECT posts.*, GROUP_CONCAT(images.file_path) FROM posts LEFT JOIN images ON posts.id = images.post_id GROUP BY posts.id
 
 }

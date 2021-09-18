@@ -2,7 +2,10 @@
 session_start();
 require_once('Database/db.php');
 $db = new Db();
-$all_posts_data = $db->posts_select();
+echo "<pre>";
+$all_data = $db->all_select();
+var_dump($all_data);
+echo "</pre>";
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -44,22 +47,24 @@ $all_posts_data = $db->posts_select();
             </form>
         </div>
     </div>
-    <?php foreach ($all_posts_data as $key => $posts_data) :?>
+    <?php foreach ($all_data as $key => $posts_data) :?>
     <div class="posts_wrapper">
         <div class="posts_container">
-            <p>NO. <?php echo $posts_data['id']; ?></p>
+            <p>ユーザー名 <?php echo $posts_data['id']; ?></p>
             <p>タイトル: <?php echo $posts_data['title']; ?></p>
             <p>画像説明:<?php echo $posts_data['body']; ?></p>
-            <div class="category">
-                <p>カテゴリ</p>
-                <p>カテゴリ</p>
-                <p>カテゴリ</p>
-            </div>
+            <ul class="category">
+                <li>カテゴリ</li>
+                <li>カテゴリ</li>
+                <li>カテゴリ</li>
+            </ul>
             <div class="images">
-                <?php $images_data = $db->iamge_select($posts_data['id']); ?>
-                <?php foreach ($images_data as $key => $image_data) :?>
-                <img src="Img/<?php echo  $image_data["file_path"]; ?> ">
-                <?php endforeach; ?>
+                <?php $images = $posts_data["file_path"];
+                $images = explode(',', $images);
+                ?>
+                <img src="Img/<?php if(isset($images[0])) { echo  $images[0]; }?>">
+                <img src="Img/<?php if(isset($images[1])) { echo  $images[1]; }?>">
+                <img src="Img/<?php if(isset($images[2])) { echo  $images[2]; }?>">
             </div>
         </div>
     </div>

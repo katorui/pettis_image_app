@@ -48,6 +48,7 @@ form input {
     padding-top: 1rem;
     border-top: solid;
     border-bottom: solid;
+    border-width: thin;
     border-color: gray;
 }
 
@@ -58,16 +59,6 @@ form input {
 .images img {
     width: 33%;
     padding: 1rem;
-}
-
-.category {
-    display: flex;
-}
-
-.category p {
-    background-color: #0dcaf0;
-    margin-left: 1rem;
-    border-radius: 30px;
 }
 
 .upload_message {
