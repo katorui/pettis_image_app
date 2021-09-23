@@ -13,7 +13,7 @@ try {
     if ($MAXS > 3) {
         throw new Exception('ファイルは3つまで選択可能です');
     }
-    for($i=0; $i < $MAXS; $i++)
+    for ($i=0; $i < $MAXS; $i++)
     {
         $size = $_FILES["upload_file"]["size"][$i] ?? "";
         if ($size <= 0) {
@@ -27,7 +27,7 @@ try {
         $path = $_FILES["upload_file"]["tmp_name"][$i] ?? "";
         $mime_type = mime_content_type($path);
 // minetype検証
-        switch($mime_type) {
+        switch ($mime_type) {
             case "image/jpeg":
                 $extention = "jpeg";
                 break;

@@ -26,7 +26,7 @@ Class Db
     public function file_insert($file_path) {
         try {
             $dbh = $this->dbc();
-            $post_id = 3;
+            $post_id = 2;
             $now = date('Y-m-d H:i:s');
             $sql = "INSERT INTO images (post_id, file_path, created_at) VALUES (?, ?, ?)";
             $stmt = $dbh->prepare($sql);
@@ -42,15 +42,15 @@ Class Db
     }
 
     // 画像取得
-    public function iamge_select($post_id) {
-        $dbh = $this->dbc();
-        $sql = "SELECT * FROM images INNER JOIN posts ON images.post_id = posts.id where post_id = ?";
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1,$post_id,PDO::PARAM_INT);
-        $stmt->execute();
-        $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $image_data;
-    }
+    // public function iamge_select($post_id) {
+    //     $dbh = $this->dbc();
+    //     $sql = "SELECT * FROM images INNER JOIN posts ON images.post_id = posts.id where post_id = ?";
+    //     $stmt = $dbh->prepare($sql);
+    //     $stmt->bindValue(1,$post_id,PDO::PARAM_INT);
+    //     $stmt->execute();
+    //     $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     return $image_data;
+    // }
 
     public function all_select() {
         $dbh = $this->dbc();
