@@ -63,35 +63,41 @@ $all_data = $db->all_select();
                     $images = explode(',', $images);?>
                     <!-- <?php var_dump($images); ?> -->
                     <?php foreach ($images as $key => $image) :?>
-                        <img class="image" src="Img/<?php echo  $image; ?>" data-aaa="<?php echo $image; ?>" data-toggle="modal" data-target="#image">
+                        <img class="image" src="Img/<?php echo  $image; ?>" data-src="<?php echo $image; ?>">
                     <?php endforeach; ?>
                 </div>
             </div>
         </div>
     <?php endforeach; ?>
-    <!-- 画像モーダル表示内容 -->
-    <div class="modal fade" id="image">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <img id="modal_image" src="" alt="">
-            </div>
-        </div>
+        <!-- 画像モーダル表示内容 -->
+    <img class="modal_image" id="modal_image" src="">
+    <div class="modal_background" id="modal_background">
     </div>
     <!-- CDN -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
-    let image_click = document.querySelectorAll('.image');
-    // console.log(image_click)
+    const image_click = document.querySelectorAll('.image');
+    console.log(image_click)
     for(let i = 0; i < image_click.length; i++) {
         image_click[i].addEventListener('click', function(ele) {
             const modal_image = document.getElementById('modal_image');
-            modal_image.setAttribute('src', 'Img/' + this.dataset.aaa);
-            console.log(modal_image)
-            console.log(this.dataset.aaa)
+            modal_image.setAttribute('src', 'Img/' + this.dataset.src);
+            const modal_background = document.getElementById('modal_background');
+            modal_image.classList.add('open');
+            modal_background.classList.add('open');
+            console.log(modal_image);
+            console.log(modal_background);
+            console.log(this.dataset.src);
         });
-	}
+
+    modal_background.addEventListener('click', function() {
+        modal_image.classList.remove('open');
+        modal_background.classList.remove('open');
+    });
+
+    }
 </script>
 </body>
 </html>

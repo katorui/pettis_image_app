@@ -64,7 +64,7 @@ $all_data = $db->all_select();
                     <!-- <?php var_dump($images); ?> -->
                     <!-- bootstrapModal -->
                     <?php foreach ($images as $key => $image) :?>
-                        <img class="image" src="Img/<?php echo  $image; ?>" data-aaa="<?php echo $image; ?>" data-toggle="modal" data-target="#image">
+                        <img class="image" src="Img/<?php echo  $image; ?>" data-src="<?php echo $image; ?>" data-toggle="modal" data-target="#image">
                     <?php endforeach; ?>
 
                 </div>
@@ -89,9 +89,9 @@ $all_data = $db->all_select();
     for(let i = 0; i < image_click.length; i++) {
         image_click[i].addEventListener('click', function(ele) {
             const modal_image = document.getElementById('modal_image');
-            modal_image.setAttribute('src', 'Img/' + this.dataset.aaa);
+            modal_image.setAttribute('src', 'Img/' + this.dataset.src);
             console.log(modal_image)
-            console.log(this.dataset.aaa)
+            console.log(this.dataset.src)
         });
 	}
 </script>

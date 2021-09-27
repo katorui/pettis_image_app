@@ -55,9 +55,7 @@ Class Db
     public function all_select() {
         $dbh = $this->dbc();
         $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
-        // $sql = "SELECT posts.id, posts.title, GROUP_CONCAT(images.file_path) FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
-        // $sql = "SELECT posts.id GROUP_CONCAT(images.file_path) AS file_pathes FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
-        $stmt = $dbh->prepare($sql);
+            $stmt = $dbh->prepare($sql);
         $stmt->execute();
         $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $image_data;
