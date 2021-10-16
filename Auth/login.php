@@ -5,19 +5,19 @@
     <link rel="stylesheet" href="../Css/auth.css">
     <title>login</title>
     <div class="container">
-        <h1 class="item">
+        <h1 class="title">
             LOGIN
         </h1>
         <form action="login_complete.php" method="post">
             <!-- フォーム入力のエラーメッセージがあれば表示、db検索エラーメッセージがあれば表示 -->
             <div class="item">
-                <label for="exampleFormControlInput1" class="form-label">EMAIL：<label>
+                <label for="exampleFormControlInput1" class="form-label"><label>
                 <!-- value値に確認画面の値を設定 -->
                 <input type="text" name="email" placeholder="EMAIL" required value="">
             </div>
     <!-- エラーメッセージ -->
             <div class="item">
-                <label for="exampleFormControlInput1" class="form-label">PASSWORD：<label>
+                <label for="exampleFormControlInput1" class="form-label"><label>
                 <input type="password" name="password" placeholder="PASSWORD" required>
             </div>
             <div class="item">

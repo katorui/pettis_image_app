@@ -26,7 +26,7 @@ Class Db
     public function file_insert($file_path) {
         try {
             $dbh = $this->dbc();
-            $post_id = 2;
+            $post_id = 9;
             $now = date('Y-m-d H:i:s');
             $sql = "INSERT INTO images (post_id, file_path, created_at) VALUES (?, ?, ?)";
             $stmt = $dbh->prepare($sql);
@@ -36,31 +36,30 @@ Class Db
             $stmt->execute();
             return true;
         } catch ( Exception $ex ) {
-            // $ex->getMessage();
+            $ex->getMessage();
             return false;
         }
     }
 
-    // 画像取得
-    // public function iamge_select($post_id) {
-    //     $dbh = $this->dbc();
-    //     $sql = "SELECT * FROM images INNER JOIN posts ON images.post_id = posts.id where post_id = ?";
-    //     $stmt = $dbh->prepare($sql);
-    //     $stmt->bindValue(1,$post_id,PDO::PARAM_INT);
-    //     $stmt->execute();
-    //     $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     return $image_data;
-    // }
-
-    public function all_select() {
+    public function total_posts() {
         $dbh = $this->dbc();
-        $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
-            $stmt = $dbh->prepare($sql);
+        // $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
+        $sql = "SELECT * FROM posts";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
+        $total_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $total_posts;
+    }
+
+    public function file_select($start) {
+        $dbh = $this->dbc();
+        $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id LIMIT 3 OFFSET :start";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(":start", $start ,PDO::PARAM_INT);
         $stmt->execute();
         $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $image_data;
     }
 
-    // SELECT posts.*, GROUP_CONCAT(images.file_path) FROM posts LEFT JOIN images ON posts.id = images.post_id GROUP BY posts.id
 
 }

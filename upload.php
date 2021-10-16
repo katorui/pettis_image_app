@@ -1,12 +1,37 @@
 <?php
 session_start();
+ini_set('display_errors', "On");
 date_default_timezone_set('Asia/Tokyo');
 require_once('Database/db.php');
-$db = new Db();
-// echo "<pre>";
 // var_dump(count($_FILES["upload_file"]["name"]));
-// echo "</pre>";
+echo ("<pre>");
+var_dump($_FILES);
+var_dump($_POST);
+// var_dump(mb_strlen($_POST['title']));
+echo ("</pre>");
 // exit;
+
+
+// try {
+//     if (mb_strlen($_POST['title']) > 20) {
+//         throw new Exception('文字数が多すぎます');
+//     }
+// } catch (Exception $e) {
+//     $_SESSION['title_error_message'] = $e->getMessage();
+//     header('Location: index.php');
+//     exit;
+// }
+
+// try {
+//     if (mb_strlen($_POST['body']) > 200) {
+//         throw new Exception('文字数が多すぎます');
+//     }
+// } catch (Exception $e) {
+//     $_SESSION['body_error_message'] = $e->getMessage();
+//     header('Location: index.php');
+//     exit;
+// }
+
 
 try {
     $MAXS = count($_FILES["upload_file"]["name"] ?? []);
@@ -46,13 +71,14 @@ try {
             $date = date("YmdHis"); //日時取得
             $file_path = $date . $random_number . "." . $extention; //保存ディレクトリ作成
             if (move_uploaded_file($path, "Img/" . $file_path)) {
-                if ($db->file_insert($file_path)) {
-                    $_SESSION['upload_message'] = "画像を投稿しました";
-                    header('Location: index.php');
-                    exit;
-                } else {
-                    throw new Exception('投稿に失敗しました');
-                }
+                $db = new Db();
+                // if ($db->file_insert($file_path)) {
+                //     $_SESSION['upload_message'] = "画像を投稿しました";
+                //     // header('Location: index.php');
+                //     exit;
+                // } else {
+                //     throw new Exception('投稿に失敗しました');
+                // }
             } else {
                 throw new Exception('投稿に失敗しました');
             }

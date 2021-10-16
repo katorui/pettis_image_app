@@ -1,9 +1,40 @@
 
+body {
+    background-color: #EEEEEE !important;
+}
+
+.title {
+    color: #0dcaf0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.container form {
+    width: 60%;
+    height: auto;
+    border-style: solid;
+    border-color: #0dcaf0;
+    padding: 8rem;
+}
+
+.item {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #0dcaf0;
+    /* padding-bottom: 1rem; */
+
+}
+
+a {
+    text-decoration: none;
+    color: #0dcaf0;
 }
 
 .button {
