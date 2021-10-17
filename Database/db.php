@@ -1,8 +1,6 @@
 <?php
-ini_set('display_errors', "On");
 
 Class Db
-
 {
 
     public function dbc() {
@@ -23,10 +21,10 @@ Class Db
 
     }
     // 画像ファイル追加
-    public function file_insert($file_path) {
+    public function file_insert($post_id, $file_path) {
         try {
             $dbh = $this->dbc();
-            $post_id = 9;
+            // $post_id = 9;
             $now = date('Y-m-d H:i:s');
             $sql = "INSERT INTO images (post_id, file_path, created_at) VALUES (?, ?, ?)";
             $stmt = $dbh->prepare($sql);
@@ -41,24 +39,32 @@ Class Db
         }
     }
 
+    public function insert_posts($user_id, $title, $body) {
+        $dbh = $this->dbc();
+        $sql = "INSERT INTO posts (user_id, title, body) VALUES (?,?,?)";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(2, $title, PDO::PARAM_STR);
+        $stmt->bindValue(3, $body, PDO::PARAM_STR);
+        $stmt->execute();
+        return $dbh->lastInsertId();
+    }
+
     public function total_posts() {
         $dbh = $this->dbc();
-        // $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id";
         $sql = "SELECT * FROM posts";
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
-        $total_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $total_posts;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function file_select($start) {
         $dbh = $this->dbc();
-        $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id LIMIT 3 OFFSET :start";
+        $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id LIMIT 3 OFFSET :start ORDER BY id DESC";
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(":start", $start ,PDO::PARAM_INT);
         $stmt->execute();
-        $image_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $image_data;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 

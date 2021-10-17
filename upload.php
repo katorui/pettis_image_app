@@ -1,92 +1,97 @@
 <?php
-session_start();
-ini_set('display_errors', "On");
 date_default_timezone_set('Asia/Tokyo');
+ini_set('display_errors', "On");
 require_once('Database/db.php');
-// var_dump(count($_FILES["upload_file"]["name"]));
-echo ("<pre>");
-var_dump($_FILES);
-var_dump($_POST);
-// var_dump(mb_strlen($_POST['title']));
-echo ("</pre>");
-// exit;
+require_once('errors/PostException.php');
 
+session_start();
 
-// try {
-//     if (mb_strlen($_POST['title']) > 20) {
-//         throw new Exception('文字数が多すぎます');
-//     }
-// } catch (Exception $e) {
-//     $_SESSION['title_error_message'] = $e->getMessage();
-//     header('Location: index.php');
-//     exit;
-// }
+if (isset($_POST)) {
+    $title = $_POST['title'];
+    $body = $_POST['body'];
+}
+$user_id = 1;
 
-// try {
-//     if (mb_strlen($_POST['body']) > 200) {
-//         throw new Exception('文字数が多すぎます');
-//     }
-// } catch (Exception $e) {
-//     $_SESSION['body_error_message'] = $e->getMessage();
-//     header('Location: index.php');
-//     exit;
-// }
-
-
+$error_messages = [];
 try {
+    // フォームインプットのバリデーション
+    if (mb_strlen($title) > 20) {
+        $error_messages['title_error_message'] = 'タイトルは20文字以下で入力してください';
+    }
+
+    if (mb_strlen($body) > 200) {
+        $error_messages['body_error_message'] = '本文は200文字以下で入力してください';
+    }
+
+    // ファイルのバリデーション
     $MAXS = count($_FILES["upload_file"]["name"] ?? []);
-    if ($MAXS > 3) {
-        throw new Exception('ファイルは3つまで選択可能です');
+    if ($MAXS > 3) {//アップロード数のバリデーション
+        $error_messages['upload_message'][] = 'ファイルは3つまで選択可能です';
     }
     for ($i=0; $i < $MAXS; $i++)
     {
         $size = $_FILES["upload_file"]["size"][$i] ?? "";
         if ($size <= 0) {
-            throw new Exception('ファイルを選択してください');
+            $error_messages['upload_message'][] = 'ファイルを選択してください';
         }
 
-        if ($size > 10000000) {
-            throw new Exception('ファイルは10M未満にしてください');
-        }
-// 三項演算子
-        $path = $_FILES["upload_file"]["tmp_name"][$i] ?? "";
-        $mime_type = mime_content_type($path);
-// minetype検証
-        switch ($mime_type) {
-            case "image/jpeg":
-                $extention = "jpeg";
-                break;
-            case "image/png":
-                $extention = "png";
-                break;
-            case "image/gif":
-                $extention = "gif";
-                break;
-            default:
-                throw new Exception('ファイル形式が不正です');
+        if ($size > 1000000) {
+            $error_messages['upload_message'][] = 'ファイルは10M未満にしてください';
         }
 
-        if (is_uploaded_file($path)) {
-            $random_number = uniqid(mt_rand(), true);
-            $date = date("YmdHis"); //日時取得
-            $file_path = $date . $random_number . "." . $extention; //保存ディレクトリ作成
-            if (move_uploaded_file($path, "Img/" . $file_path)) {
-                $db = new Db();
-                // if ($db->file_insert($file_path)) {
-                //     $_SESSION['upload_message'] = "画像を投稿しました";
-                //     // header('Location: index.php');
-                //     exit;
-                // } else {
-                //     throw new Exception('投稿に失敗しました');
-                // }
-            } else {
-                throw new Exception('投稿に失敗しました');
+        // var_dump($_FILES["upload_file"]["tmp_name"][$i]);
+        if (!empty($_FILES["upload_file"]["tmp_name"][$i])) {
+            $path[$i] = $_FILES["upload_file"]["tmp_name"][$i] ?? "";
+            $mime_type = mime_content_type($path[$i]);//mime_content_typeで拡張子を検出
+
+            // mimetype検証
+            switch ($mime_type) {
+                case "image/jpeg":
+                    $extention = "jpeg";
+                    break;
+                case "image/png":
+                    $extention = "png";
+                    break;
+                case "image/gif":
+                    $extention = "gif";
+                    break;
+                default:
+                    $error_messages['upload_message'][] = 'ファイル形式が不正です';
+                }
             }
-        }
     }
 
-} catch (Exception $e) {
-    $_SESSION['upload_message'] = $e->getMessage();
+    if (count($error_messages) > 0) {
+        throw new PostException($error_messages);
+    }
+// // 保存開始
+// // DB保存 try
+    $db = new Db();
+    $post_id = $db->insert_posts($user_id, $title,$body);
+
+    for ($j=0; $j < $MAXS; $j++)
+    {
+        if (is_uploaded_file($path[$j])) {
+            $random_number = uniqid(mt_rand(), true);//乱数作成
+            $date = date("YmdHis"); //日時取得
+            $file_path[$j] = $date . $random_number . "." . $extention; //保存ディレクトリ作成
+            if (move_uploaded_file($path[$j], "Img/" . $file_path[$j])) {
+                $db->file_insert($post_id, $file_path[$j]);
+            }
+        } else {
+            $error_messages['upload_message'][] = '投稿に失敗しました';
+            throw new PostException($error_messages);
+        }
+    }
+    $_SESSION['upload_message'][] = "画像を投稿しました";
+    header('Location: index.php');
+    exit;
+
+} catch (PostException $e) {
+    $errors = $e->getArrayMessage();
+    if(!empty($errors->title_error_message)) $_SESSION['title_error_message'] = $errors->title_error_message;
+    if(!empty($errors->body_error_message)) $_SESSION['body_error_message'] = $errors->body_error_message;
+    if(!empty($errors->upload_message)) $_SESSION['upload_message'] = $errors->upload_message;
     header('Location: index.php');
     exit;
 }

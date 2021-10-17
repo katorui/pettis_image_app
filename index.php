@@ -1,7 +1,9 @@
 <?php
 session_start();
 require_once('Database/db.php');
+
 $db = new Db();
+
 // dbで取得する数を定義
 const MAX= 3;
 // 現在ページ数１以下ならば１、それ以外はその数を変数へ代入
@@ -20,10 +22,6 @@ $total_posts_num = count($total_posts);
 $total_page = ceil($total_posts_num / MAX);
 $prev = max($now - 1, 1);
 $next = min($now + 1, $total_page);
-echo "<pre>";
-echo "全データ件数";
-var_dump($total_posts_num);
-echo "</pre>";
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -59,7 +57,10 @@ echo "</pre>";
                 <input type="file" name="upload_file[]" multiple >
                 <div class="upload_message">
                 <?php if (isset($_SESSION['upload_message'])) {
-                    echo $_SESSION['upload_message'];
+                    foreach(array_unique($_SESSION['upload_message']) as $error) {
+                        echo $error . "<br>";
+                    }
+                    // var_dump($_SESSION['upload_message']);
                     unset($_SESSION['upload_message']); };
                 ?>
                 </div>
@@ -143,15 +144,11 @@ echo "</pre>";
             const modal_background = document.getElementById('modal_background');
             modal_image.classList.add('open');
             modal_background.classList.add('open');
-            // modal_image.classList.toggle('open');
-            // modal_background.classList.toggle('open');
         });
     // 閉じる
-    modal_background.addEventListener('click', function() {
+        modal_background.addEventListener('click', function() {
         modal_image.classList.remove('open');
         modal_background.classList.remove('open');
-        // modal_image.classList.toggle('open');
-        // modal_background.classList.toggle('open');
     });
 
     }
