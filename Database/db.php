@@ -60,7 +60,7 @@ Class Db
 
     public function file_select($start) {
         $dbh = $this->dbc();
-        $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id LIMIT 3 OFFSET :start ORDER BY id DESC";
+        $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id LIMIT 3 OFFSET :start";
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(":start", $start ,PDO::PARAM_INT);
         $stmt->execute();
