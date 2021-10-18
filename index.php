@@ -1,9 +1,9 @@
 <?php
 session_start();
 require_once('Database/db.php');
+require_once('test.php');
 
 $db = new Db();
-
 // dbで取得する数を定義
 const MAX= 3;
 // 現在ページ数１以下ならば１、それ以外はその数を変数へ代入
@@ -15,9 +15,19 @@ if (!isset($_GET['page_id'])) {
 //スタートページ
 $start = ($now - 1) * MAX;
 $all_data = $db->file_select($start);
-$total_posts = $db->total_posts();
 //総数
-$total_posts_num = count($total_posts);
+$total_posts_num = $db->posts_count();
+echo "<pre>";
+// var_dump($all_data);
+echo "<br>";
+// var_dump($total_posts_num);
+echo "</pre>";
+echo "<br>";
+// $test = new Test();
+// $test->test();
+echo "<br>";
+// $test = new Test('こんにちは');
+// $test->test();
 //トータルページ
 $total_page = ceil($total_posts_num / MAX);
 $prev = max($now - 1, 1);

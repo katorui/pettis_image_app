@@ -20,7 +20,7 @@ body {
     width: 60%;
     height: auto;
     border-style: solid;
-    border-color: #0dcaf0;
+    border-color: gray;
     padding: 8rem;
 }
 
@@ -39,4 +39,5 @@ a {
 
 .button {
     text-align: center;
+    padding: 0.6rem 6rem !important;
 }
