@@ -71,6 +71,7 @@ Class Db
         $stmt->bindValue(":email", $email ,PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+        // $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 
