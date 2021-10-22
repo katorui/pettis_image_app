@@ -32,6 +32,9 @@ echo "<br>";
 $total_page = ceil($total_posts_num / MAX);
 $prev = max($now - 1, 1);
 $next = min($now + 1, $total_page);
+if(isset($_SESSION['email'])) {
+    echo $_SESSION['email'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">

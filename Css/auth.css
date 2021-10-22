@@ -39,5 +39,12 @@ a {
 
 .button {
     text-align: center;
-    padding: 0.6rem 6rem !important;
+    /* padding: 0.6rem 6rem !important; */
+    padding: 0.7rem;
+
+}
+
+.message {
+    text-align: center;
+    color: red;
 }

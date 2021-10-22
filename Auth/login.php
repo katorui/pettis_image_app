@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../Database/db.php');
 $email = 'test@gmail.com';
 $db = new Db();
@@ -13,27 +14,38 @@ echo "</pre>";
     <title>login</title>
     <div class="container">
         <h1 class="title">
-            LOGIN
+            <!-- LOGIN -->
         </h1>
         <form action="login_process.php" method="post">
+            <div class="message">
+                <?php if (isset($_SESSION['empty_error']['email'])) {
+                    echo $_SESSION['empty_error']['email'];
+                    unset($_SESSION['empty_error']['email']);
+                } ?>
+            </div>
             <!-- フォーム入力のエラーメッセージがあれば表示、db検索エラーメッセージがあれば表示 -->
             <div class="item">
                 <label for="exampleFormControlInput1" class="form-label"><label>
                 <!-- value値に確認画面の値を設定 -->
-                <input type="text" name="email" placeholder="EMAIL" required value="">
+                <input type="text" name="email" placeholder="EMAIL"  value="">
             </div>
     <!-- エラーメッセージ -->
+            <div class="message">
+                <?php if (isset($_SESSION['empty_error']['password'])) {
+                    echo $_SESSION['empty_error']['password'];
+                    unset($_SESSION['empty_error']['password']);
+                } ?>
+            </div>
             <div class="item">
                 <label for="exampleFormControlInput1" class="form-label"><label>
-                <input type="password" name="password" placeholder="PASSWORD" required>
+                <input type="password" name="password" placeholder="PASSWORD" >
             </div>
             <!-- <div class="item">
                 <input type="hidden" name="csrf_token" value="">
             </div> -->
             <div class="button">
-                <input class="btn btn-primary" type="submit" value="LOGIN">
+                <input class="btn btn-info rounded-pill post_btn" type="submit" value="LOGIN">
             </div>
         </form>
-        <p>まだ登録がお済みでない方<a href="">こちら</a></p>
     </div>
 </body>
