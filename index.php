@@ -17,11 +17,6 @@ $start = ($now - 1) * MAX;
 $all_data = $db->file_select($start);
 //総数
 $total_posts_num = $db->posts_count();
-echo "<pre>";
-// var_dump($all_data);
-echo "<br>";
-// var_dump($total_posts_num);
-echo "</pre>";
 echo "<br>";
 // $test = new Test();
 // $test->test();
@@ -32,9 +27,6 @@ echo "<br>";
 $total_page = ceil($total_posts_num / MAX);
 $prev = max($now - 1, 1);
 $next = min($now + 1, $total_page);
-if(isset($_SESSION['email'])) {
-    echo $_SESSION['email'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -48,6 +40,12 @@ if(isset($_SESSION['email'])) {
 </head>
 <body>
 <?php require_once('header.php') ?>
+<!-- ログインユーザー表示 -->
+<?php if(isset($_SESSION['email'])) {
+    echo 'ようこそ' . $_SESSION['email'] . 'さん';
+    // 後で削除
+    unset($_SESSION['email']);
+}?>
     <div class="wrapper">
         <div class="container">
             <form action="upload.php" method="POST" enctype="multipart/form-data" class="post_form">

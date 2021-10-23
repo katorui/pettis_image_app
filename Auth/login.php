@@ -1,12 +1,10 @@
 <?php
+ini_set('display_errors', "On");
 session_start();
 require_once('../Database/db.php');
-$email = 'test@gmail.com';
-$db = new Db();
-$login_users = $db->login_user($email);
-echo "<pre>";
-var_dump($login_users['email']);
-echo "</pre>";
+// $email = 'test@gmail.com';
+// $db = new Db();
+// $login_users = $db->login_user($email);
 ?>
 <body>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -14,14 +12,24 @@ echo "</pre>";
     <title>login</title>
     <div class="container">
         <h1 class="title">
-            <!-- LOGIN -->
+            LOGIN
         </h1>
         <form action="login_process.php" method="post">
             <div class="message">
-                <?php if (isset($_SESSION['empty_error']['email'])) {
-                    echo $_SESSION['empty_error']['email'];
-                    unset($_SESSION['empty_error']['email']);
-                } ?>
+                <?php
+                    if (isset($_SESSION['error_message'])) {
+                        echo $_SESSION['error_message'];
+                        unset($_SESSION['error_message']);
+                    }
+                ?>
+            </div>
+            <div class="message">
+                <?php
+                    if (isset($_SESSION['input_email_error'])) {
+                        echo $_SESSION['input_email_error'];
+                        unset($_SESSION['input_email_error']);
+                    }
+                ?>
             </div>
             <!-- フォーム入力のエラーメッセージがあれば表示、db検索エラーメッセージがあれば表示 -->
             <div class="item">
@@ -29,12 +37,14 @@ echo "</pre>";
                 <!-- value値に確認画面の値を設定 -->
                 <input type="text" name="email" placeholder="EMAIL"  value="">
             </div>
-    <!-- エラーメッセージ -->
+            <!-- エラーメッセージ -->
             <div class="message">
-                <?php if (isset($_SESSION['empty_error']['password'])) {
-                    echo $_SESSION['empty_error']['password'];
-                    unset($_SESSION['empty_error']['password']);
-                } ?>
+                <?php
+                    if (isset($_SESSION['input_password_error'])) {
+                        echo $_SESSION['input_password_error'];
+                        unset($_SESSION['input_password_error']);
+                    }
+                ?>
             </div>
             <div class="item">
                 <label for="exampleFormControlInput1" class="form-label"><label>
