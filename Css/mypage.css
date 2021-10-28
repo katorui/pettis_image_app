@@ -3,14 +3,6 @@ body {
     background-color: #EEEEEE !important;
 }
 
-.app_title {
-    /* background-color: blue; */
-    width: 100%;
-    text-align: center;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
 .wrapper {
     /* background-color: red; */
     text-align: center;
@@ -18,11 +10,6 @@ body {
     width: 50%;
     border-style: solid;
     border-color: gray;
-}
-
-h1 {
-    text-align: center;
-    color: #0dcaf0;
 }
 
 .title {
@@ -41,24 +28,12 @@ form input {
     width: 100%;
 }
 
-.checkbox {
-    width:35%;
-    margin: auto;
-}
-
-.checkbox label {
-    margin-right: 0.2rem;
-}
-
-/* .post_btn_area {
-    text-align: center;
-} */
-
 .post_btn {
     padding: 0.6rem 6rem !important;
 }
 
 .posts_wrapper {
+    /* background-color: orange; */
     margin: auto;
     width: 50%;
     margin-top: 5rem;
@@ -111,7 +86,7 @@ form input {
 }
 
 /* モーダル背景 */
-    .modal_background {
+.modal_background {
     position: fixed;
     top: 0;
     left: 0;
@@ -129,7 +104,6 @@ form input {
 
 .modal_background.open {
     opacity: 0.7;
-    /* display: block; */
 }
 
 .header {
@@ -165,10 +139,6 @@ form input {
     text-align: left;
 }
 
-/* .body_error_message {
-    margin-top: 3rem;
-    color: red;
-    width: 100% ;
-    height: 100%;
-    text-align: left;
-} */
+.message {
+    color:red;
+}

@@ -3,17 +3,23 @@ date_default_timezone_set('Asia/Tokyo');
 ini_set('display_errors', "On");
 require_once('Database/db.php');
 require_once('errors/PostException.php');
-
 session_start();
 
 if (isset($_POST)) {
     $title = $_POST['title'];
     $body = $_POST['body'];
+    $csrf_token = $_POST['csrf_token'];
 }
-$user_id = 1;
+
+$user_id = 5;
 
 $error_messages = [];
 try {
+    if ($csrf_token !== $_SESSION["csrf_token"]) {
+        $error_messages['csrf_token_error'] = "規定のページからアクセスしてください。";
+        throw new PostException($error_messages);
+    }
+
     // フォームインプットのバリデーション
     if (mb_strlen($title) > 20) {
         $error_messages['title_error_message'] = 'タイトルは20文字以下で入力してください';
@@ -92,6 +98,7 @@ try {
     if(!empty($errors->title_error_message)) $_SESSION['title_error_message'] = $errors->title_error_message;
     if(!empty($errors->body_error_message)) $_SESSION['body_error_message'] = $errors->body_error_message;
     if(!empty($errors->upload_message)) $_SESSION['upload_message'] = $errors->upload_message;
+    if(!empty($errors->csrf_token_error)) $_SESSION['csrf_token_error'] = $errors->csrf_token_error;
     header('Location: index.php');
     exit;
 }

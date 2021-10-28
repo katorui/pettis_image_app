@@ -2,6 +2,10 @@
 ini_set('display_errors', "On");
 session_start();
 require_once('../Database/db.php');
+
+$csrf_token = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 16);
+$_SESSION["csrf_token"] = $csrf_token;
+var_dump($_SESSION["csrf_token"]);
 // $email = 'test@gmail.com';
 // $db = new Db();
 // $login_users = $db->login_user($email);
@@ -15,6 +19,21 @@ require_once('../Database/db.php');
             LOGIN
         </h1>
         <form action="login_process.php" method="post">
+            <div class="message">
+                <?php
+                    if (isset($_SESSION['error_message'])) {
+                        echo $_SESSION['error_message'];
+                        unset($_SESSION['error_message']);
+                    }
+                ?>
+            <div class="message">
+                <?php
+                    if (isset($_SESSION['csrf_token_error'])) {
+                        echo $_SESSION['csrf_token_error'];
+                        unset($_SESSION['csrf_token_error']);
+                    }
+                ?>
+            </div>
             <div class="message">
                 <?php
                     if (isset($_SESSION['error_message'])) {
@@ -50,9 +69,9 @@ require_once('../Database/db.php');
                 <label for="exampleFormControlInput1" class="form-label"><label>
                 <input type="password" name="password" placeholder="PASSWORD" >
             </div>
-            <!-- <div class="item">
-                <input type="hidden" name="csrf_token" value="">
-            </div> -->
+            <div class="item">
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION["csrf_token"] ?>">
+            </div>
             <div class="button">
                 <input class="btn btn-info rounded-pill post_btn" type="submit" value="LOGIN">
             </div>

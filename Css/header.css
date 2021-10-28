@@ -1,0 +1,32 @@
+
+.app_title {
+    /* background-color: blue; */
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+h1 {
+    /* background-color: white; */
+    text-align: center;
+    color: #0dcaf0;
+}
+
+.login_user {
+    position: absolute;
+    /* background-color: skyblue; */
+    margin-left: 70%;
+    bottom: 3rem;
+}
+
+.logout {
+    position: absolute;
+    margin-left: 90%;
+    text-decoration: none;
+    bottom: 3rem;
+}
+
+.logout a {
+    text-align: center;
+    text-decoration: none;
+}
