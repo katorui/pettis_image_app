@@ -33,6 +33,7 @@ form input {
 }
 
 .posts_wrapper {
+    position: relative;
     /* background-color: orange; */
     margin: auto;
     width: 50%;
@@ -43,6 +44,17 @@ form input {
     border-bottom: solid;
     border-width: thin;
     border-color: gray;
+}
+
+/* .posts_delete {
+    background-color: blue;
+} */
+
+.posts_delete a {
+    /* background-color: red; */
+    color: saddlebrown;
+    text-decoration: none;
+    margin-left: 90%;
 }
 
 .post_user {

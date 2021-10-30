@@ -57,6 +57,7 @@ Class Db
 
     // ページネーション用セレクト
     public function file_select($start) {
+        //postsテーブルから全て取得、imagesテーブルのfilepathカラムをfilepath
         $sql = "SELECT posts.*, GROUP_CONCAT(images.file_path) as file_path FROM posts JOIN images ON posts.id = images.post_id GROUP BY posts.id LIMIT 3 OFFSET :start";
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindValue(":start", $start ,PDO::PARAM_INT);
@@ -73,6 +74,23 @@ Class Db
         return $stmt->fetch(PDO::FETCH_ASSOC);
         // $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function post_delete($id) {
+        $sql = "DELETE FROM posts join images ON posts.id = images.post_id GROUP BY posts.id where id = :id";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindValue(":id", $id ,PDO::PARAM_STR);
+        return $stmt->execute();
+        // $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function test_select($id) {
+        $sql = "SELECT posts.*,  FROM posts join images ON posts.id = images.post_id GROUP BY posts.id";
+        $stmt = $this->dbh->prepare($sql);
+        // $stmt->bindValue(":id", $id ,PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // GROUP BY posts.id where id = :id"
 
 
 }

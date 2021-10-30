@@ -12,14 +12,16 @@ require_once('security/xss.php');
 if (!isset($_SESSION['email'])) { // ログインされていなければログインページへ
     header('Location: Auth/login.php');
 }
+
 if (isset($_SESSION['id'])) { // ログインされていなければログインページへ
     var_dump($_SESSION['id']);
 }
 $csrf_token = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 16); // 16文字のトークン作成
 $_SESSION["csrf_token"] = $csrf_token;
 // var_dump($_SESSION["csrf_token"]);
-$db = new Db(); // dbで取得する数を定義
-const MAX= 3;// 現在ページ数１以下ならば１、それ以外はその数を変数へ代入
+$db = new Db();
+const MAX= 3;// dbで取得する数を定義
+// 現在ページ数１以下ならば１、それ以外はその数を変数へ代入
 if (!isset($_GET['page_id'])) {
     $now = 1;
 } else {
@@ -32,7 +34,7 @@ $total_page = ceil($total_posts_num / MAX);
 $prev = max($now - 1, 1);
 $next = min($now + 1, $total_page);
 echo "<pre>";
-// var_dump($all_data);
+var_dump($all_data);
 echo "</pre>";
 
 ?>
@@ -92,10 +94,12 @@ echo "</pre>";
 </div>
 <?php foreach ($all_data as $key => $posts_data) :?>
     <div class="posts_wrapper">
-        <div class="posts_container">
+        <div class="posts_delete">
             <?php if ($posts_data['user_id'] == $_SESSION['id']):?><!-- ログインユーザーの投稿のみ削除ボタン表示 -->
-                <a href="posts_delete.php">投稿削除</a>
+                <a href="posts_delete.php?id=<?= $posts_data['id']; ?>">投稿削除</a>
             <?php endif; ?>
+        </div>
+        <div class="posts_container">
             <p>投稿NO. <?php echo xss($posts_data['id']); ?></p>
             <p>ユーザー名 <?php echo xss($posts_data['user_id']); ?></p>
             <p>タイトル: <?php echo xss($posts_data['title']); ?></p>
