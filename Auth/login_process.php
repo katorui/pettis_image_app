@@ -4,11 +4,11 @@ session_start();
 require_once('../Database/db.php');
 require_once('../errors/PostException.php');
 require_once('../security/xss.php');
-
 //テストアドレス test2@gmail.com
 //テストパスワード pettistest2
 //テストアドレス pettis@gmail.com
 //テストパスワード2 testtesttest
+
 if (isset($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -28,22 +28,16 @@ try {
     //メールアドレス空バリデーション
     if (empty($email)) {
         $input_errors['input_email_error'] = "メールアドレスを入力してください";
-    }
-    //メールアドレス形式バリデーション
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        //メールアドレス形式チェック
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $input_errors['input_email_error'] = "正しい形式で入力してください";
     }
     //パスワード空バリデーション
     if (empty($password)) {
         $input_errors['input_password_error']= "パスワードを入力してください";
-    }
     //半角英数8-100位下
-    if (!preg_match('/\A[a-z\d]{8,100}+\z/i', "$password")) {
+    } elseif (!preg_match('/\A[a-z\d]{8,100}+\z/i', "$password")) {
         $input_errors['input_password_error']= "パスワードは半角英数8-100文字で入力してください";
-    }
-
-    if (empty($password)) {
-        $input_errors['input_password_error']= "パスワードを入力してください";
     }
 
     if (count($input_errors) > 0) {

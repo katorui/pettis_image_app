@@ -74,23 +74,13 @@ Class Db
         return $stmt->fetch(PDO::FETCH_ASSOC);
         // $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+    // 投稿を削除
     public function post_delete($id) {
-        $sql = "DELETE FROM posts join images ON posts.id = images.post_id GROUP BY posts.id where id = :id";
+        // $sql = "DELETE FROM posts join images ON posts.id = images.post_id GROUP BY posts.id where id = :id";
+        $sql = "DELETE posts,images FROM posts JOIN images ON posts.id = images.post_id where posts.id = :id";
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindValue(":id", $id ,PDO::PARAM_STR);
         return $stmt->execute();
-        // $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    public function test_select($id) {
-        $sql = "SELECT posts.*,  FROM posts join images ON posts.id = images.post_id GROUP BY posts.id";
-        $stmt = $this->dbh->prepare($sql);
-        // $stmt->bindValue(":id", $id ,PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    // GROUP BY posts.id where id = :id"
-
 
 }

@@ -1,0 +1,19 @@
+create table tags (
+  id int(), INDEX (id), FOREIGN KEY 外部キー名(子カラム名) REFERENCES posts(id)),
+  post_id int(),
+  name varchar(100),
+  created_at timestamp not null default current_timestamp,
+  updated_at timestamp not null default current_timestamp on update current_timestamp,
+  primary key(id)
+);
+
+
+create table tags (
+  id int(11),
+  post_id int(11),
+  name varchar(100),
+  created_at timestamp not null default current_timestamp,
+  updated_at timestamp not null default current_timestamp on update current_timestamp,
+  primary key(id),
+    CONSTRAINT `fk_post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+);

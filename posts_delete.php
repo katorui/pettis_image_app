@@ -10,6 +10,5 @@ var_dump($id);
 
 $db = new Db();
 // $db->post_delete($id);
-echo "<pre>";
-var_dump($db->test_select($id));
-echo "</pre>";
+$db->post_delete($id);
+header('Location: /');

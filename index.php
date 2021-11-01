@@ -5,17 +5,13 @@ require_once('security/xss.php');
 // $test = password_hash(testtesttest, PASSWORD_DEFAULT);
 // var_dump($test);
 // require_once('test.php');
-// $test = new Test();
-// $test->test();
-// $test = new Test('こんにちは');
-// $test->test();
+// $aaa = new Test();
+// $aaa->test();
+
 if (!isset($_SESSION['email'])) { // ログインされていなければログインページへ
     header('Location: Auth/login.php');
 }
 
-if (isset($_SESSION['id'])) { // ログインされていなければログインページへ
-    var_dump($_SESSION['id']);
-}
 $csrf_token = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 16); // 16文字のトークン作成
 $_SESSION["csrf_token"] = $csrf_token;
 // var_dump($_SESSION["csrf_token"]);
@@ -34,7 +30,7 @@ $total_page = ceil($total_posts_num / MAX);
 $prev = max($now - 1, 1);
 $next = min($now + 1, $total_page);
 echo "<pre>";
-var_dump($all_data);
+// var_dump($all_data);
 echo "</pre>";
 
 ?>
@@ -96,7 +92,7 @@ echo "</pre>";
     <div class="posts_wrapper">
         <div class="posts_delete">
             <?php if ($posts_data['user_id'] == $_SESSION['id']):?><!-- ログインユーザーの投稿のみ削除ボタン表示 -->
-                <a href="posts_delete.php?id=<?= $posts_data['id']; ?>">投稿削除</a>
+                <a href="posts_delete.php?id=<?= $posts_data['id']; ?>">削除する</a>
             <?php endif; ?>
         </div>
         <div class="posts_container">
@@ -114,8 +110,7 @@ echo "</pre>";
         </div>
     </div>
 <?php endforeach; ?>
-
-    <!-- ページネーション -->
+<!-- ページネーション -->
 <div class="page_link">
     <?php if ($now != 1) :?>
         <a href="?page_id=<?php echo xss($prev);?>">前へ</a>
@@ -125,14 +120,13 @@ echo "</pre>";
         <a href="?page_id=<?php echo xss($next); ?>">次へ</a>
     <?php endif ;?>
 </div>
-
 <!-- 画像モーダル表示内容 -->
 <div class="modal_image" id="modal_image">
     <img class="modal_contents" id="modal_contents" src="">
     <div class="modal_background" id="modal_background">
     </div>
 </div>
-    <!-- CDN -->
+<!-- CDN -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
