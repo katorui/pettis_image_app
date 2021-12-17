@@ -62,7 +62,7 @@ try {
     echo "</pre>";
 
     if (!isset($login_users['email'])) {
-        $error_messages['error_message'] = 'メールアドレス又はパスワードが間違っています';
+        $error_messages['not_exist_error'] = 'メールアドレス又はパスワードが間違っています';
     }
     //ハッシュ化されて登録されていたパスワードを送られたパスワードとマッチするか検証
     if (password_verify($password, $login_users['password'])) {
@@ -72,7 +72,7 @@ try {
         header('Location:/');
         exit;
     } else {
-        $error_messages['error_message'] = 'メールアドレス又はパスワードが間違っています';
+        $error_messages['not_exist_error'] = 'メールアドレス又はパスワードが間違っています';
     }
 
     if (isset($error_messages)) {
@@ -81,7 +81,7 @@ try {
 
 } catch (PostException $e) {
     $errors = $e->getArrayMessage();
-    if(!empty($errors->error_message)) $_SESSION['error_message'] = $errors->error_message;
+    if(!empty($errors->not_exist_error)) $_SESSION['not_exist_error'] = $errors->not_exist_error;
     header('Location: login.php');
     exit;
 }

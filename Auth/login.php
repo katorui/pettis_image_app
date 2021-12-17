@@ -21,9 +21,9 @@ var_dump($_SESSION["csrf_token"]);
         <form action="login_process.php" method="post">
             <div class="message">
                 <?php
-                    if (isset($_SESSION['error_message'])) {
-                        echo $_SESSION['error_message'];
-                        unset($_SESSION['error_message']);
+                    if (isset($_SESSION['not_exist_error'])) {
+                        echo $_SESSION['not_exist_error'];
+                        unset($_SESSION['not_exist_error']);
                     }
                 ?>
             <div class="message">
@@ -31,14 +31,6 @@ var_dump($_SESSION["csrf_token"]);
                     if (isset($_SESSION['csrf_token_error'])) {
                         echo $_SESSION['csrf_token_error'];
                         unset($_SESSION['csrf_token_error']);
-                    }
-                ?>
-            </div>
-            <div class="message">
-                <?php
-                    if (isset($_SESSION['error_message'])) {
-                        echo $_SESSION['error_message'];
-                        unset($_SESSION['error_message']);
                     }
                 ?>
             </div>

@@ -34,15 +34,9 @@ echo "<pre>";
 echo "</pre>";
 
 ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Css/mypage.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>トップページ</title>
+<link rel="stylesheet" href="Css/mypage.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<title>トップページ</title>
 </head>
 <body>
 <!-- ログインユーザー表示 -->
@@ -63,14 +57,14 @@ echo "</pre>";
                     unset($_SESSION['title_error_message']);}
             ?>
             </div>
-        <input class="title" type="text" name="title" placeholder="タイトル">
+        <input class="title" type="text" name="title" placeholder="タイトル" value="<?php if(isset($_SESSION['title'])) {echo $_SESSION['title'];}  unset($_SESSION['title']); ?>">
         <div class="body_error_message">
             <?php if (isset($_SESSION['body_error_message'])) {
                     echo $_SESSION['body_error_message'];
                     unset($_SESSION['body_error_message']);}
             ?>
         </div>
-        <textarea name="body" id="post" cols="50" rows="5" placeholder="画像説明"></textarea>
+        <textarea name="body" id="post" cols="50" rows="5" placeholder="画像説明" value="<?php if(isset($_SESSION['body'])) {echo $_SESSION['body'];}  unset($_SESSION['body']); ?>"></textarea>
         <input type="file" name="upload_file[]" multiple >
         <div class="upload_message">
         <?php if (isset($_SESSION['upload_message'])) {
@@ -97,7 +91,7 @@ echo "</pre>";
         </div>
         <div class="posts_container">
             <p>投稿NO. <?php echo xss($posts_data['id']); ?></p>
-            <p>ユーザー名 <?php echo xss($posts_data['user_id']); ?></p>
+            <p>ユーザーNO. <?php echo xss($posts_data['user_id']); ?></p>
             <p>タイトル: <?php echo xss($posts_data['title']); ?></p>
             <p>画像説明:<?php echo xss($posts_data['body']); ?></p>
             <div class="images">
@@ -112,13 +106,7 @@ echo "</pre>";
 <?php endforeach; ?>
 <!-- ページネーション -->
 <div class="page_link">
-    <?php if ($now != 1) :?>
-        <a href="?page_id=<?php echo xss($prev);?>">前へ</a>
-    <?php endif ;?>
-<span><?php echo $now; ?></span>
-    <?php if ($now < $total_page) :?>
-        <a href="?page_id=<?php echo xss($next); ?>">次へ</a>
-    <?php endif ;?>
+    <?php require_once('pagenation.php'); ?>
 </div>
 <!-- 画像モーダル表示内容 -->
 <div class="modal_image" id="modal_image">

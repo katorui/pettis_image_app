@@ -22,10 +22,12 @@ try {
 
     // フォームインプットのバリデーション
     if (mb_strlen($title) > 20) {
+        $_SESSION['title'] = $title;
         $error_messages['title_error_message'] = 'タイトルは20文字以下で入力してください';
     }
 
     if (mb_strlen($body) > 200) {
+        $_SESSION['body'] = $body;
         $error_messages['body_error_message'] = '本文は200文字以下で入力してください';
     }
 
